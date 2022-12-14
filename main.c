@@ -12,7 +12,6 @@
 #include <stdlib.h>
 #include "N9H30.h"
 #include "sys.h"
-#include "etimer.h"
 
 #ifdef __USE_SD__
 #include "sdh.h"
@@ -318,43 +317,14 @@ void SYS_Init(void)
 
 }
 
-void ETMR0_IRQHandler(void)
-{
-    static uint32_t sec = 1;
-    sysprintf("%d sec\n", sec++);
-	if (sec%2==0){
-		GPIO_SetBit(GPIOC, BIT14);
-	}
-	else{
-		GPIO_ClrBit(GPIOC, BIT14);
-	}
-    // clear timer interrupt flag
-    ETIMER_ClearIntFlag(0);
-}
 
 void MainTask(void)
 {
     U8 i;
     WM_HWIN hWin;
 //keypad init and open interuption
-	//kpi_init();
-	//kpi_open();
-	
-	//sysDisableCache();
-    //sysFlushCache(I_D_CACHE);
-    //sysEnableCache(CACHE_WRITE_BACK);
-	
-	//outpw(REG_CLK_PCLKEN0, inpw(REG_CLK_PCLKEN0) | (1 << 4));
-	//ETIMER_Open(0, ETIMER_PERIODIC_MODE, 1);
-	
-	//ETIMER_EnableInt(0);
-    //sysInstallISR(HIGH_LEVEL_SENSITIVE | IRQ_LEVEL_1, ETMR0_IRQn, (PVOID)ETMR0_IRQHandler);
-    //sysSetLocalInterrupt(ENABLE_IRQ);
-    //sysEnableInterrupt(ETMR0_IRQn);
-	
-	//ETIMER_Start(0);
-	//while(1){};
-		
+	kpi_init();
+	kpi_open();
 //emwin main page	
     GUI_Init();
     WM_SetDesktopColor(GUI_BLACK);
